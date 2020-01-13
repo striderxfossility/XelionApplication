@@ -2,7 +2,7 @@
   "name": "xelion-plugin",
   "version": "1.0.0",
   "description": "a xelion softphone application",
-  "main": "xelion-plugin.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/striderxfossility/XelionApplication/issues"
   },
-  "homepage": "https://github.com/striderxfossility/XelionApplication#readme"
+  "homepage": "https://github.com/striderxfossility/XelionApplication#readme",
+  "dependencies": {
+    "axios": "^0.19.1",
+    "vue-cookie": "^1.1.4"
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-console": "off"
+    }
+  },
+  "devDependencies": {
+    "uikit": "^3.0.0-rc.4"
+  }
 }
