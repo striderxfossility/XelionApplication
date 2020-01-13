@@ -1,0 +1,19 @@
+{
+  "name": "xelion-plugin",
+  "version": "1.0.0",
+  "description": "a xelion softphone application",
+  "main": "xelion-plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/striderxfossility/XelionApplication.git"
+  },
+  "author": "Jelle Bakker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/striderxfossility/XelionApplication/issues"
+  },
+  "homepage": "https://github.com/striderxfossility/XelionApplication#readme"
+}
