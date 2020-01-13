@@ -75,6 +75,7 @@ export default {
     data() {
         return {
             user: null,
+            lines: []
         }
     },
 
@@ -94,6 +95,10 @@ export default {
         
         axios.get(this.$cookie.get("baseUrl") + "/me/info").then(response => {
             this.user = response.data.object
+
+            axios.get(this.$cookie.get("baseUrl") + "/phones").then(LineResponse => {
+                console.log(LineResponse)
+            })
         }).catch(error => {
             console.log(error.response)
         })
