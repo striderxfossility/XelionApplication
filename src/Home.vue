@@ -80,7 +80,7 @@
                             </h3>
                             <p class="uk-text-meta uk-margin-remove-top">
                                 <time datetime="2016-04-01T19:00">
-                                    {{ histor.object.lastCommunication.date }}<br />
+                                    {{ NiceDate(histor.object.lastCommunication.date) }}<br />
                                     <span style="font-weight:bold;">Duur {{ NiceSeconds(histor.object.lastCommunication.durationSec) }}</span>
                                 </time>
                             </p>
@@ -115,6 +115,24 @@ export default {
     },
 
     methods: {
+        NiceDate(datum) {
+            var first = datum.split(" ")[0]
+            var tijd = datum.split(" ")[1].split(":")[0] + ":" + datum.split(" ")[1].split(":")[1]
+
+            var thisDate = new Date().toISOString().split("T")[0]
+
+            if(first == thisDate)
+                return 'Vandaag ' + tijd
+
+            var gister = new Date()
+            gister.setDate(gister.getDate()-1)
+            gister = gister.toISOString().split("T")[0]
+
+            if(first == gister)
+                return 'Gister ' + tijd
+
+            return first + " " + tijd
+        },
         NiceSeconds(sec) {
 
             if(sec < 60)
