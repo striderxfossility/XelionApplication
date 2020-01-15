@@ -97,7 +97,7 @@
                 </div>
             </div>
 
-            <div v-if="activeTemplate == 'Contact'">
+            <div v-if="activeTemplate == 'Contact'" class="uk-width-3-4">
                 <Contact :oid="templateParameter" ></Contact>
             </div>
 
