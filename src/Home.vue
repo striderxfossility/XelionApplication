@@ -74,7 +74,7 @@
                         <div class="uk-width-expand">
                             <h5 style="font-size: 16px;" class="uk-card-title uk-margin-remove-bottom">
                                 <span v-if="histor.object.lastCommunication.status == 'Answer'"><i style="color:green;" class="fas fa-phone"></i></span>
-                                <span v-if="histor.object.lastCommunication.status == 'Unavailable'"><i style="color:red;" class="fas fa-phone-slash"></i></span>
+                                <span v-if="histor.object.lastCommunication.status == 'Unavailable' || histor.object.lastCommunication.status == 'Cancel'"><i style="color:red;" class="fas fa-phone-slash"></i></span>
                                 
                                 <span v-if="histor.object.addressable">
                                     {{ histor.object.addressable.commonName }}

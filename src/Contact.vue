@@ -63,7 +63,17 @@ export default {
                 console.log(response)
             })
         }
-    }
+    },
+
+    mounted() {
+        axios.get(this.$cookie.get("baseUrl") + "/addressables/" + this.oid).then(response => {
+            this.info = response.data.object
+        })
+
+        axios.get(this.$cookie.get("baseUrl") + "/addressables/" + this.oid + "/contacts").then(response => {
+            console.log(response)
+        })
+    },
 }
 </script>
 
