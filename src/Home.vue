@@ -64,7 +64,7 @@
         </div>
 
         <div class="uk-grid">
-            <div class="uk-width-1-4" style="background:#fafafa;">
+            <div class="uk-width-1-4 sidebar" :style="'background:#fafafa; height:'+getWindowHeight()+'px;'">
                 <div class="uk-card-header histor" style="cursor:pointer; border-bottom: 1px solid #999999;" v-for="(histor, i) in historyList" :key="'histor-' + i">
                     <div v-on:click="openContact(histor)" class="uk-grid-small uk-flex-middle" uk-grid v-if="histor">
                         <div class="uk-width-auto">
@@ -136,6 +136,9 @@ export default {
     },
 
     methods: {
+        getWindowHeight() {
+            return window.innerHeight - 80
+        },
         openContact(histor) {
             if(histor.object.addressable) {
                 this.activeTemplate = 'Contact'
@@ -253,5 +256,9 @@ export default {
 
     .histor:hover {
         background: #e8e7e7;
+    }
+
+    .sidebar {
+        overflow-y: scroll;
     }
 </style>
