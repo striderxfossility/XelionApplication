@@ -65,7 +65,7 @@
 
         <div class="uk-grid">
             <div class="uk-width-1-4" style="background:#fafafa;">
-                <div class="uk-card-header" style="border-bottom: 1px solid #999999;" v-for="(histor, i) in history" :key="'histor-' + i">
+                <div class="uk-card-header histor" style="cursor:pointer; border-bottom: 1px solid #999999;" v-for="(histor, i) in historyList" :key="'histor-' + i">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
                             <img v-if="histor.attachment" class="uk-border-circle" width="40" height="40" :src="'data:image/jpeg;base64,' + histor.attachment.contentsB64String">
@@ -75,7 +75,15 @@
                             <h5 style="font-size: 16px;" class="uk-card-title uk-margin-remove-bottom">
                                 <span v-if="histor.object.lastCommunication.status == 'Answer'"><i style="color:green;" class="fas fa-phone"></i></span>
                                 <span v-if="histor.object.lastCommunication.status == 'Unavailable'"><i style="color:red;" class="fas fa-phone-slash"></i></span>
-                                {{ histor.object.addressable.commonName }}
+                                
+                                <span v-if="histor.object.addressable">
+                                    {{ histor.object.addressable.commonName }}
+                                </span>
+
+                                <span v-if="!histor.object.addressable">
+                                    Onbekend
+                                </span>
+                                
                                 <span v-if="histor.object.lastCommunication.voicemail == true"><i style="color:#8383ff;" class="fas fa-voicemail"></i></span>
                             </h5>
                             <p class="uk-text-meta uk-margin-remove-top">
@@ -114,7 +122,17 @@ export default {
         }
     },
 
+    computed: {
+        historyList() {
+            return this.history
+        }
+    },
+
     methods: {
+        pushHistory (i, data) {
+            this.history[i] = data
+            this.$forceUpdate();
+        },
         NiceDate(datum) {
             var first = datum.split(" ")[0]
             var tijd = datum.split(" ")[1].split(":")[0] + ":" + datum.split(" ")[1].split(":")[1]
@@ -176,16 +194,30 @@ export default {
             this.user = response.data.object
 
             axios.get(this.$cookie.get("baseUrl") + "/communications/recent").then(response => {
-                this.history = response.data.data
 
-                for (let i = 0; i < this.history.length; i++) {
-                    var icon = this.history[i].object.addressable.iconId
+                var data = response.data.data
 
-                    if(icon) {
-                        axios.get(this.$cookie.get("baseUrl") + "/attachments/" + icon).then(response => {
-                            this.history[i].attachment = response.data.object
-                        })
+                for (let i = 0; i < data.length; i++) 
+                {
+
+                    if(data[i].object.addressable) 
+                    {
+                        var icon = data[i].object.addressable.iconId
+
+                        data[i].attachment = null
+
+                        if(icon) {
+                            axios.get(this.$cookie.get("baseUrl") + "/attachments/" + icon).then(check => {
+                                data[i].attachment = check.data.object
+                                this.pushHistory(i, data[i])
+                            })
+                        } else {
+                            this.pushHistory(i, data[i])
+                        }
+                    } else {
+                        this.pushHistory(i, data[i])
                     }
+
                 }
             })
         }).catch(error => {
@@ -200,5 +232,9 @@ export default {
         width:30px;
         height:30px;
         border-radius: 50%;
+    }
+
+    .histor:hover {
+        background: #e8e7e7;
     }
 </style>
