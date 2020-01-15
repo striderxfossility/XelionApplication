@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="uk-navbar uk-navbar-container uk-margin">
+        <nav class="uk-navbar uk-navbar-container uk-margin" style="margin-bottom: 0px;">
             <div class="uk-navbar-left">
                 <a class="uk-navbar-toggle" uk-toggle="target: #offcanvas-push" href="#">
                     <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Menu</span>
@@ -64,20 +64,20 @@
         </div>
 
         <div class="uk-grid">
-            <div class="uk-width-1-3">
-                <div class="uk-card-header" v-for="(histor, i) in history" :key="'histor-' + i">
+            <div class="uk-width-1-4" style="background:#fafafa;">
+                <div class="uk-card-header" style="border-bottom: 1px solid #999999;" v-for="(histor, i) in history" :key="'histor-' + i">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
                             <img v-if="histor.attachment" class="uk-border-circle" width="40" height="40" :src="'data:image/jpeg;base64,' + histor.attachment.contentsB64String">
                             <img v-if="!histor.attachment" width="40" height="40" />
                         </div>
                         <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-margin-remove-bottom">
+                            <h5 style="font-size: 16px;" class="uk-card-title uk-margin-remove-bottom">
                                 <span v-if="histor.object.lastCommunication.status == 'Answer'"><i style="color:green;" class="fas fa-phone"></i></span>
                                 <span v-if="histor.object.lastCommunication.status == 'Unavailable'"><i style="color:red;" class="fas fa-phone-slash"></i></span>
                                 {{ histor.object.addressable.commonName }}
                                 <span v-if="histor.object.lastCommunication.voicemail == true"><i style="color:#8383ff;" class="fas fa-voicemail"></i></span>
-                            </h3>
+                            </h5>
                             <p class="uk-text-meta uk-margin-remove-top">
                                 <time datetime="2016-04-01T19:00">
                                     {{ NiceDate(histor.object.lastCommunication.date) }}<br />
