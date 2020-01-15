@@ -66,7 +66,7 @@
         <div class="uk-grid">
             <div class="uk-width-1-4" style="background:#fafafa;">
                 <div class="uk-card-header histor" style="cursor:pointer; border-bottom: 1px solid #999999;" v-for="(histor, i) in historyList" :key="'histor-' + i">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div v-on:click="openContact(histor)" class="uk-grid-small uk-flex-middle" uk-grid v-if="histor">
                         <div class="uk-width-auto">
                             <img v-if="histor.attachment" class="uk-border-circle" width="40" height="40" :src="'data:image/jpeg;base64,' + histor.attachment.contentsB64String">
                             <img v-if="!histor.attachment" width="40" height="40" />
@@ -97,6 +97,10 @@
                 </div>
             </div>
 
+            <div v-if="activeTemplate == 'Contact'">
+                <Contact :oid="templateParameter" ></Contact>
+            </div>
+
             <div class="uk-width-1-3">
                 <div v-for="channel in channels" :key="channel.object.channelId">
                     {{ channel.object.phoneNumber }} is aan het bellen!
@@ -107,6 +111,7 @@
 </template>
 
 <script>
+import Contact from './Contact.vue'
 import UIkit from 'uikit'
 import axios from 'axios'
 
@@ -118,7 +123,9 @@ export default {
             user: null,
             lines: [],
             channels: [],
-            history: []
+            history: [],
+            activeTemplate: '',
+            templateParameter: 0
         }
     },
 
@@ -129,6 +136,12 @@ export default {
     },
 
     methods: {
+        openContact(histor) {
+            if(histor.object.addressable) {
+                this.activeTemplate = 'Contact'
+                this.templateParameter = histor.object.addressable.oid
+            }
+        },
         pushHistory (i, data) {
             this.history[i] = data
             this.$forceUpdate();
@@ -200,11 +213,11 @@ export default {
                 for (let i = 0; i < data.length; i++) 
                 {
 
+                    data[i].attachment = null
+                    
                     if(data[i].object.addressable) 
                     {
                         var icon = data[i].object.addressable.iconId
-
-                        data[i].attachment = null
 
                         if(icon) {
                             axios.get(this.$cookie.get("baseUrl") + "/attachments/" + icon).then(check => {
@@ -223,6 +236,10 @@ export default {
         }).catch(error => {
             console.log(error.response)
         })
+    },
+
+    components: {
+        Contact
     }
 }
 </script>
